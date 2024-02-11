@@ -1,140 +1,140 @@
 
-
+package com.example;
 
 import java.util.*;
 
-class Ноутбук {
-    private String модель;
-    private int озу;
-    private int объемЖД;
-    private String ос;
-    private String цвет;
+class Laptop {
+    private String model;
+    private int ram;
+    private int storageCapacity;
+    private String os;
+    private String color;
 
-    public Ноутбук(String модель, int озу, int объемЖД, String ос, String цвет) {
-        this.модель = модель;
-        this.озу = озу;
-        this.объемЖД = объемЖД;
-        this.ос = ос;
-        this.цвет = цвет;
+    public Laptop(String model, int ram, int storageCapacity, String os, String color) {
+        this.model = model;
+        this.ram = ram;
+        this.storageCapacity = storageCapacity;
+        this.os = os;
+        this.color = color;
     }
 
-    public String getМодель() {
-        return модель;
+    public String getModel() {
+        return model;
     }
 
-    public int getОзу() {
-        return озу;
+    public int getRam() {
+        return ram;
     }
 
-    public int getОбъемЖД() {
-        return объемЖД;
+    public int getStorageCapacity() {
+        return storageCapacity;
     }
 
-    public String getОс() {
-        return ос;
+    public String getOs() {
+        return os;
     }
 
-    public String getЦвет() {
-        return цвет;
+    public String getColor() {
+        return color;
     }
 }
 
-
-
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        Set<Ноутбук> ноутбуки = new HashSet<>();
-        ноутбуки.add(new Ноутбук("Модель1", 8, 512, "Windows", "Черный"));
-        ноутбуки.add(new Ноутбук("Модель2", 16, 1024, "MacOS", "Серый"));
-        // Добавьте еще ноутбуков по аналогии
+        // Create a set of laptops
+        Set<Laptop> laptops = new HashSet<>();
+        laptops.add(new Laptop("Model1", 8, 512, "Windows", "Black"));
+        laptops.add(new Laptop("Model2", 16, 1024, "MacOS", "Gray"));
+        // Add more laptops as needed
 
-        // Запрашиваем критерии фильтрации у пользователя
+        // Prompt the user for filtering criteria
         Scanner scanner = new Scanner(System.in);
-        Map<String, Object> фильтр = new HashMap<>();
+        Map<String, Object> filter = new HashMap<>();
 
-        System.out.println("Введите цифру, соответствующую критерию:");
-        System.out.println("1 - ОЗУ");
-        System.out.println("2 - Объем ЖД");
-        System.out.println("3 - Операционная система");
-        System.out.println("4 - Цвет");
+        System.out.println("Enter the number corresponding to the criteria:");
+        System.out.println("1 - RAM");
+        System.out.println("2 - Storage Capacity");
+        System.out.println("3 - Operating System");
+        System.out.println("4 - Color");
 
-        int выбор = scanner.nextInt();
+        int choice = scanner.nextInt();
 
-        switch (выбор) {
+        switch (choice) {
             case 1:
-                System.out.println("Введите минимальное значение ОЗУ:");
-                int минОЗУ = scanner.nextInt();
-                фильтр.put("ОЗУ", минОЗУ);
+                System.out.println("Enter the minimum RAM value:");
+                int minRam = scanner.nextInt();
+                filter.put("RAM", minRam);
                 break;
             case 2:
-                System.out.println("Введите минимальный объем ЖД:");
-                int минОбъемЖД = scanner.nextInt();
-                фильтр.put("ОбъемЖД", минОбъемЖД);
+                System.out.println("Enter the minimum storage capacity:");
+                int minStorageCapacity = scanner.nextInt();
+                filter.put("StorageCapacity", minStorageCapacity);
                 break;
             case 3:
-                System.out.println("Введите операционную систему:");
-                String ос = scanner.next();
-                фильтр.put("ОС", ос);
+                System.out.println("Enter the operating system:");
+                String os = scanner.next();
+                filter.put("OS", os);
                 break;
             case 4:
-                System.out.println("Введите цвет:");
-                String цвет = scanner.next();
-                фильтр.put("Цвет", цвет);
+                System.out.println("Enter the color:");
+                String color = scanner.next();
+                filter.put("Color", color);
                 break;
             default:
-                System.out.println("Некорректный выбор.");
+                System.out.println("Invalid choice.");
                 return;
         }
 
-        // Фильтрация и вывод результатов
-        Set<Ноутбук> результаты = фильтровать(ноутбуки, фильтр);
-        выводитьРезультаты(результаты);
+        // Filter and display results
+        Set<Laptop> results = filterLaptops(laptops, filter);
+        displayResults(results);
+
+
     }
 
-    private static Set<Ноутбук> фильтровать(Set<Ноутбук> ноутбуки, Map<String, Object> фильтр) {
-        Set<Ноутбук> результаты = new HashSet<>(ноутбуки);
+    private static Set<Laptop> filterLaptops(Set<Laptop> laptops, Map<String, Object> filter) {
+        Set<Laptop> results = new HashSet<>(laptops);
 
-        for (Map.Entry<String, Object> entry : фильтр.entrySet()) {
-            String критерий = entry.getKey();
-            Object значение = entry.getValue();
+        for (Map.Entry<String, Object> entry : filter.entrySet()) {
+            String criterion = entry.getKey();
+            Object value = entry.getValue();
 
-            switch (критерий) {
-                case "ОЗУ":
-                    результаты.removeIf(ноутбук -> ноутбук.getОзу() < (int) значение);
+            switch (criterion) {
+                case "RAM":
+                    results.removeIf(laptop -> laptop.getRam() < (int) value);
                     break;
-                case "ОбъемЖД":
-                    результаты.removeIf(ноутбук -> ноутбук.getОбъемЖД() < (int) значение);
+                case "StorageCapacity":
+                    results.removeIf(laptop -> laptop.getStorageCapacity() < (int) value);
                     break;
-                case "ОС":
-                    результаты.removeIf(ноутбук -> !ноутбук.getОс().equalsIgnoreCase((String) значение));
+                case "OS":
+                    results.removeIf(laptop -> !laptop.getOs().equalsIgnoreCase((String) value));
                     break;
-                case "Цвет":
-                    результаты.removeIf(ноутбук -> !ноутбук.getЦвет().equalsIgnoreCase((String) значение));
+                case "Color":
+                    results.removeIf(laptop -> !laptop.getColor().equalsIgnoreCase((String) value));
                     break;
                 default:
-                    System.out.println("Неизвестный критерий: " + критерий);
+                    System.out.println("Unknown criterion: " + criterion);
             }
         }
 
-        return результаты;
+        return results;
     }
 
-    private static void выводитьРезультаты(Set<Ноутбук> результаты) {
-        if (результаты.isEmpty()) {
-            System.out.println("Ноутбуки не найдены по заданным критериям.");
+    private static void displayResults(Set<Laptop> results) {
+        if (results.isEmpty()) {
+            System.out.println("No laptops found based on the specified criteria.");
         } else {
-            System.out.println("Результаты поиска:");
-            for (Ноутбук ноутбук : результаты) {
-                System.out.println("Модель: " + ноутбук.getМодель() +
-                        ", ОЗУ: " + ноутбук.getОзу() +
-                        ", Объем ЖД: " + ноутбук.getОбъемЖД() +
-                        ", ОС: " + ноутбук.getОс() +
-                        ", Цвет: " + ноутбук.getЦвет());
+            System.out.println("Search results:");
+            for (Laptop laptop : results) {
+                System.out.println("Model: " + laptop.getModel() +
+                        ", RAM: " + laptop.getRam() +
+                        ", Storage Capacity: " + laptop.getStorageCapacity() +
+                        ", OS: " + laptop.getOs() +
+                        ", Color: " + laptop.getColor());
             }
         }
     }
 }
+
 
 
